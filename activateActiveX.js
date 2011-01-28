@@ -1,4 +1,4 @@
-/*  activateActiveX 1.1
+/*  activateActiveX 1.2
 	Copyright 2006 Jason Garber and Tavis Tucker
 	This software is licensed under the CC-LGPL <http://creativecommons.org/licenses/LGPL/2.1/>
 */
@@ -29,20 +29,23 @@ function onDomReady(func) {
 /*
 activateActiveX : Activates ActiveX content for Internet Explorer 6.0+ to avoid requiring a user to click before using an object
 
-Source : <http://sixtwothree.org/blog/archives/2006/05/20/activateactivex-11/>
+Source : <http://sixtwothree.org/blog/archives/2006/05/20/activateactivex-12/>
 */
 
 function activateActiveX() {
 	if ( !document.getElementsByTagName || !document.body.outerHTML || !document.compatMode ) return false;
 	var elems = new Array( "object", "applet" );
-	for ( i = 0, j = elems.length; i < j; i++ ) {
-		var objects = document.getElementsByTagName(elems[i]);
-		for ( k = 0, l = objects.length; k < l; k++ ) {
+	var i = elems.length;
+	while ( i-- > 0 ) {
+		var objects = document.getElementsByTagName( elems[i] );
+		var j = objects.length;
+		while ( j-- > 0 ) {
 			var params = "";
-			for ( m = 0, n = objects[k].childNodes.length; m < n; m++ ) {
-				params += objects[k].childNodes[m].outerHTML;
+			var k = objects[j].childNodes.length;
+			while ( k-- > 0 ) {
+				params += objects[j].childNodes[k].outerHTML;
 			}
-			objects[k].outerHTML = objects[k].outerHTML.replace( "</" + elems[i].toUpperCase() + ">", params + "</" + elems[i].toUpperCase() + ">" );
+			objects[j].outerHTML = objects[j].outerHTML.replace( "</" + elems[i].toUpperCase() + ">", params + "</" + elems[i].toUpperCase() + ">" );
 		}
 	}
 }
